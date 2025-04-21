@@ -1,11 +1,11 @@
 NAME = philo
 
-SRCS = main.c ft_atoi.c parsing.c routine.c
+SRCS = main.c philo_utils.c parsing.c routine.c  monitor.c  #remove remove.c
 
 OBJS = $(SRCS:.c=.o)
 
 CC = cc
-CFLAGS =
+CFLAGS = -Wall -Wextra -Werror -g
 
 all: $(NAME)
 

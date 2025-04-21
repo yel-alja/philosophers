@@ -1,31 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   monitor.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/19 12:51:04 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/04/20 11:38:31 by yel-alja         ###   ########.fr       */
+/*   Created: 2025/04/05 17:33:16 by yel-alja          #+#    #+#             */
+/*   Updated: 2025/04/20 18:52:13 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+#include <unistd.h>
 
-int	main(int ac, char **av)
+void	*monitor(void *args)
 {
 	t_info	*info;
+	int		num;
 
-	if (ac != 6 && ac != 5)
+	info = args;
+	num = info->num_phi;
+	while (1) // philo->info->death_flag
 	{
-		printf("usage: ./philo <number_of_philosophers> <time_to_die> ");
-		printf("<time_to_eat> <time_to_sleep>  ");
-		printf("[number_of_times_each_philosopher_must_eat]\n");
-		return (1);
+		pthread_mutex_lock(info->check_lock);
+		if ((info->philos_full == num) && (info->ac == 6))
+		{
+			info->stop = 1;
+			pthread_mutex_unlock(info->check_lock);
+			break ;
+		}
+		pthread_mutex_unlock(info->check_lock);
+		usleep(1000);
 	}
-	info = malloc(sizeof(t_info));
-	if (!info)
-		return (1);
-	if (init_info(info, av, ac) == -1)
-		return (1);
+	return (NULL);
 }

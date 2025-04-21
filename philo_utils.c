@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atod.c                                          :+:      :+:    :+:   */
+/*   philo_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 09:31:09 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/04/04 09:46:38 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/04/07 15:27:54 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	ft_atoi(char *str , int *c)
+int	ft_atoi(char *str, int *c)
 {
 	int		i;
 	long	r;
@@ -32,9 +32,17 @@ int	ft_atoi(char *str , int *c)
 	while (str[i] >= 48 && str[i] <= 57)
 	{
 		r = r * 10 + (str[i] - 48);
-		if((r * s) > INT_MAX || (r * s) < INT_MIN)
+		if ((r * s) > INT_MAX || (r * s) < INT_MIN)
 			*c = -1;
 		i++;
 	}
-	return (r * s);
+	return ((int)r * s);
+}
+
+long	get_time(void)
+{
+	struct timeval	time;
+
+	gettimeofday(&time, NULL);
+	return (time.tv_sec * 1000) + (time.tv_usec / 1000);
 }
