@@ -5,7 +5,7 @@ SRCS = main.c philo_utils.c parsing.c routine.c  monitor.c  #remove remove.c
 OBJS = $(SRCS:.c=.o)
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g
+CFLAGS =  -Wall -Wextra -Werror -g
 
 all: $(NAME)
 
