@@ -6,7 +6,7 @@
 /*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 13:19:28 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/04/23 16:39:05 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/04/24 21:04:14 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,10 @@ int					create_philo(t_info *info);
 int					ft_atoi(char *str, int *c);
 int					init_info(t_info *info, char **av, int ac);
 int					create_thread(t_philo *philo);
-long				get_time();
+long				get_time(void);
 int					check_number(t_info *info, char **str);
 void				*monitor(void *args);
-void				print_event(t_philo *philo , char *str);
+void				print_event(t_philo *philo, char *str);
+void				initialize_mutexes(pthread_mutex_t *forks, t_info *info,
+						pthread_mutex_t *meal_mutex);
+int					is_dead(t_philo *philo);

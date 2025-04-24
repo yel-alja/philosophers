@@ -6,7 +6,7 @@
 /*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 10:20:31 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/04/23 16:47:39 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/04/24 21:01:43 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,22 +41,7 @@ int	check_number(t_info *info, char **str)
 	return (0);
 }
 
-void	initialize_mutexes(pthread_mutex_t *forks, t_info *info ,pthread_mutex_t *meal_mutex)
-{
-	int	j;
-
-	j = 0;
-	while (j < info->num_phi)
-	{
-		pthread_mutex_init(&forks[j], NULL);
-		pthread_mutex_init(&meal_mutex[j], NULL);
-		j++;
-	}
-	pthread_mutex_init(&info->print_lock, NULL);
-	pthread_mutex_init(&info->check_lock, NULL);
-	pthread_mutex_init(&info->death_lock, NULL);
-}
-void ft_clean(pthread_mutex_t *forks ,pthread_mutex_t *meal_mutex ,int num) //?????
+void	ft_clean(pthread_mutex_t *forks, pthread_mutex_t *meal_mutex, int num)
 {
 	int	i;
 
@@ -72,10 +57,12 @@ void ft_clean(pthread_mutex_t *forks ,pthread_mutex_t *meal_mutex ,int num) //??
 	// pthread_mutex_destroy(&info->death_lock);
 }
 
-void init_philo(t_philo *philo ,t_info *info, pthread_mutex_t *forks, pthread_mutex_t *meal_mutex)
+void	init_philo(t_philo *philo, t_info *info, pthread_mutex_t *forks,
+		pthread_mutex_t *meal_mutex)
 {
+	int	i;
 
-	int i = 0;
+	i = 0;
 	while (i < info->num_phi)
 	{
 		philo[i].id = i + 1;
@@ -84,7 +71,7 @@ void init_philo(t_philo *philo ,t_info *info, pthread_mutex_t *forks, pthread_mu
 		philo[i].left_fork = &forks[(i + 1) % info->num_phi];
 		philo[i].info = info;
 		philo[i].times_eat = 0;
-		philo[i].last_meal	 = 0;
+		philo[i].last_meal = 0;
 		i++;
 	}
 }
@@ -106,17 +93,18 @@ int	create_philo(t_info *info)
 	philo = malloc(sizeof(t_philo) * info->num_phi);
 	if (!philo)
 		return (free(forks), -1);
-	initialize_mutexes(forks, info ,meal_mutex); //?
-	init_philo(philo , info , forks , meal_mutex);
+	initialize_mutexes(forks, info, meal_mutex);
+	init_philo(philo, info, forks, meal_mutex);
 	create_thread(philo);
-	ft_clean(forks , meal_mutex , info->num_phi );
+	ft_clean(forks, meal_mutex, info->num_phi);
 	return (free(philo), free(info), free(forks), free(meal_mutex), 0);
 }
 
 int	init_info(t_info *info, char **av, int ac)
 {
 	int	i;
-	*info = (t_info ){0};
+
+	*info = (t_info){0};
 	i = 0;
 	info->ac = ac;
 	info->num_phi = ft_atoi(av[1], &i);

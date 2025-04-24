@@ -6,7 +6,7 @@
 /*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 09:31:09 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/04/07 15:27:54 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/04/24 21:01:48 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,5 +44,22 @@ long	get_time(void)
 	struct timeval	time;
 
 	gettimeofday(&time, NULL);
-	return (time.tv_sec * 1000) + (time.tv_usec / 1000);
+	return ((time.tv_sec * 1000) + (time.tv_usec / 1000));
+}
+
+void	initialize_mutexes(pthread_mutex_t *forks, t_info *info,
+		pthread_mutex_t *meal_mutex)
+{
+	int	j;
+
+	j = 0;
+	while (j < info->num_phi)
+	{
+		pthread_mutex_init(&forks[j], NULL);
+		pthread_mutex_init(&meal_mutex[j], NULL);
+		j++;
+	}
+	pthread_mutex_init(&info->print_lock, NULL);
+	pthread_mutex_init(&info->check_lock, NULL);
+	pthread_mutex_init(&info->death_lock, NULL);
 }
