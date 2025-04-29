@@ -6,7 +6,7 @@
 /*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 14:23:01 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/04/24 21:06:15 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/04/29 21:16:59 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,37 +21,46 @@ void	print_event(t_philo *philo, char *str)
 	pthread_mutex_unlock(&philo->info->print_lock);
 }
 
-void	pick_forks(t_philo *philo)
+int	pick_forks(t_philo *philo)
 {
 	if (philo->id % 2 != 0)
 	{
-		pthread_mutex_lock(philo->left_fork);
-		print_event(philo, "has taken a fork");
 		pthread_mutex_lock(philo->right_fork);
+		print_event(philo, "has taken a fork");
+		if (philo->info->num_phi == 1)
+		{
+			pthread_mutex_unlock(philo->left_fork);
+			return (-1);
+		}
+		pthread_mutex_lock(philo->left_fork);
 		print_event(philo, "has taken a fork");
 	}
 	else
 	{
-		usleep(1000);
 		pthread_mutex_lock(philo->right_fork);
-		print_event(philo, "has taken a fork");
 		pthread_mutex_lock(philo->left_fork);
 		print_event(philo, "has taken a fork");
+		print_event(philo, "has taken a fork");
 	}
+	return (0);
 }
 
 static int	eat_fun(t_philo *philo)
 {
-	pick_forks(philo);
+	if (pick_forks(philo) == -1)
+		return (-1);
 	print_event(philo, "is eating");
-	usleep(philo->info->tte * 1000);
+	pthread_mutex_lock(philo->meal_mutex);
+	philo->last_meal = get_time();
+	pthread_mutex_unlock(philo->meal_mutex);
+	if(philo->info->ttd < philo->info->tte)
+		usleep(philo->info->ttd * 1000);
+	else
+		usleep(philo->info->tte * 1000);
 	pthread_mutex_unlock(philo->left_fork);
 	pthread_mutex_unlock(philo->right_fork);
 	if (is_dead(philo) == -1)
 		return (-1);
-	pthread_mutex_lock(philo->meal_mutex);
-	philo->last_meal = get_time();
-	pthread_mutex_unlock(philo->meal_mutex);
 	pthread_mutex_lock(&philo->info->check_lock);
 	philo->times_eat++;
 	if ((philo->times_eat == philo->info->noe) && philo->info->ac == 6)
@@ -65,26 +74,26 @@ void	*routine(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
-	pthread_mutex_lock(philo->meal_mutex);
-	philo->last_meal = get_time();
-	pthread_mutex_unlock(philo->meal_mutex);
-	if (philo->info->num_phi == 1)
-		return (print_event(philo, "has taken a fork"), usleep(philo->info->ttd
-				* 1000), NULL);
+	if(philo->id % 2)
+		usleep(10000);
 	while (1)
 	{
 		pthread_mutex_lock(&philo->info->check_lock);
 		if (philo->info->stop == 1)
-		{
-			pthread_mutex_unlock(&philo->info->check_lock);
-			break ;
-		}
+			return (pthread_mutex_unlock(&philo->info->check_lock), NULL);
 		pthread_mutex_unlock(&philo->info->check_lock);
 		print_event(philo, "is thinking");
 		if (eat_fun(philo) == -1)
 			break ;
+		pthread_mutex_lock(&philo->info->check_lock);
+		if (philo->info->stop == 1)
+			return (pthread_mutex_unlock(&philo->info->check_lock), NULL);
+		pthread_mutex_unlock(&philo->info->check_lock);
 		print_event(philo, "is sleeping");
-		usleep(philo->info->tts * 1000);
+		if(philo->info->ttd < philo->info->tts)
+			usleep(philo->info->ttd * 1000);
+		else
+			usleep(philo->info->tts * 1000);
 	}
 	return (NULL);
 }

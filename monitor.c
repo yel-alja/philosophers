@@ -6,7 +6,7 @@
 /*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 17:33:16 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/04/24 21:02:57 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/04/29 20:53:19 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,8 @@ int	check_death(t_philo *philo)
 			philo[i].info->death_flag = 1;
 			pthread_mutex_unlock(&philo[i].info->death_lock);
 			pthread_mutex_lock(&philo[i].info->print_lock);
-			printf("%ld\t%d\t%s\n", (get_time() - philo->info->start),
-				philo->id, "died");
+			printf("%ld\t%d\t%s\n", (get_time() - philo[i].info->start),
+				philo[i].id, "died");
 			pthread_mutex_unlock(&philo[i].info->print_lock);
 			pthread_mutex_unlock(philo[i].meal_mutex);
 			return (-1);
