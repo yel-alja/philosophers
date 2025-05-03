@@ -37,9 +37,9 @@ int	pick_forks(t_philo *philo)
 	}
 	else
 	{
-		pthread_mutex_lock(philo->right_fork);
 		pthread_mutex_lock(philo->left_fork);
 		print_event(philo, "has taken a fork");
+		pthread_mutex_lock(philo->right_fork);
 		print_event(philo, "has taken a fork");
 	}
 	return (0);
@@ -74,8 +74,6 @@ void	*routine(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
-	if(philo->id % 2)
-		usleep(10000);
 	while (1)
 	{
 		pthread_mutex_lock(&philo->info->check_lock);
