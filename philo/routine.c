@@ -6,7 +6,7 @@
 /*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 14:23:01 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/05/05 11:50:01 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/05/09 16:25:19 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	print_event(t_philo *philo, char *str)
 
 int	pick_forks(t_philo *philo)
 {
-	if (philo->id % 2 != 0)
+	if (philo->id % 2 == 0)
 	{
 		pthread_mutex_lock(philo->right_fork);
 		print_event(philo, "has taken a fork");
@@ -53,7 +53,7 @@ static int	eat_fun(t_philo *philo)
 	pthread_mutex_lock(philo->meal_mutex);
 	philo->last_meal = get_time();
 	pthread_mutex_unlock(philo->meal_mutex);
-	if(philo->info->ttd < philo->info->tte)
+	if (philo->info->ttd < philo->info->tte)
 		usleep(philo->info->ttd * 1000);
 	else
 		usleep(philo->info->tte * 1000);
@@ -81,7 +81,6 @@ void	*routine(void *arg)
 			return (pthread_mutex_unlock(&philo->info->check_lock), NULL);
 		pthread_mutex_unlock(&philo->info->check_lock);
 		print_event(philo, "is thinking");
-		if(philo->id % 2 == 1)
 			usleep(1000);
 		if (eat_fun(philo) == -1)
 			break ;
@@ -90,8 +89,10 @@ void	*routine(void *arg)
 			return (pthread_mutex_unlock(&philo->info->check_lock), NULL);
 		pthread_mutex_unlock(&philo->info->check_lock);
 		print_event(philo, "is sleeping");
-		if(philo->info->ttd < philo->info->tts)
+		if (philo->info->ttd < philo->info->tts)
 			usleep(philo->info->ttd * 1000);
+		else if(philo->info->tte > philo->info->tts)	//?
+			usleep(200 * 1000);	//?
 		else
 			usleep(philo->info->tts * 1000);
 	}

@@ -6,7 +6,7 @@
 /*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 10:20:31 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/04/29 21:22:56 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/05/06 09:01:18 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,8 +111,8 @@ int	init_info(t_info *info, char **av, int ac)
 		info->noe = ft_atoi(av[5], &i);
 	else
 		info->noe = INT_MAX;
-	if (i == -1 || check_number(info, av, 1, 0) == -1 || create_philo(info) ==
-		-1)
+	if (i == -1 || check_number(info, av, 1, 0) == -1 || create_philo(info)
+		== -1)
 		return (free(info), -1);
 	return (0);
 }

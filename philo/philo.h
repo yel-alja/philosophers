@@ -6,16 +6,18 @@
 /*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 13:19:28 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/04/27 16:57:41 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/05/06 09:00:23 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <limits.h>
-#include <pthread.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <sys/time.h>
-#include <unistd.h>
+#ifndef PHILO_H
+# define PHILO_H
+# include <limits.h>
+# include <pthread.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <sys/time.h>
+# include <unistd.h>
 
 typedef struct s_info
 {
@@ -56,3 +58,5 @@ void				print_event(t_philo *philo, char *str);
 void				initialize_mutexes(pthread_mutex_t *forks, t_info *info,
 						pthread_mutex_t *meal_mutex);
 int					is_dead(t_philo *philo);
+
+#endif
