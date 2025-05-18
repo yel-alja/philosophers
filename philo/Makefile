@@ -9,7 +9,7 @@ CFLAGS =  -Wall -Wextra -Werror -g
 
 all: $(NAME)
 
-$(NAME): $(OBJS)
+$(NAME): $(OBJS) philo.h
 	$(CC) $(OBJS) $(CFLAGS) -o $(NAME)
 
 clean:
