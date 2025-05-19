@@ -6,7 +6,7 @@
 /*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 13:19:28 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/05/19 09:45:55 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/05/19 11:29:02 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,6 @@ typedef struct s_philo
 	int				id;
 	int				times_eat;
 	long			last_meal;
-	int				flag_eat; 	//?
-	pthread_mutex_t	flag_eat_mutex;		//?
 	pthread_t		thread;
 	pthread_mutex_t	*left_fork;
 	pthread_mutex_t	*right_fork;
