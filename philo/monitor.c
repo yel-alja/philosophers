@@ -6,7 +6,7 @@
 /*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 17:33:16 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/05/07 17:02:06 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/05/19 09:59:43 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,22 @@ int	check_death(t_philo *philo)
 {
 	int	i;
 	int	num;
+	long curr;
 
 	i = 0;
 	num = philo[0].info->num_phi;
 	while (i < num)
 	{
 		pthread_mutex_lock(philo[i].meal_mutex);
-		if ((get_time() - philo[i].last_meal) >= philo[i].info->ttd)
+		curr = get_time() - philo[i].last_meal;
+		pthread_mutex_unlock(philo[i].meal_mutex);
+		pthread_mutex_lock(&philo[i].flag_eat_mutex); //?
+		if(curr >= philo[i].info->tte * 2)
+		{
+			philo[i].flag_eat = 1;
+		}
+		pthread_mutex_unlock(&philo[i].flag_eat_mutex); //?
+		if (curr >= philo[i].info->ttd)
 		{
 			pthread_mutex_lock(&philo[i].info->death_lock);
 			philo[i].info->death_flag = 1;
@@ -43,10 +52,9 @@ int	check_death(t_philo *philo)
 			printf("%ld\t%d\t%s\n", (get_time() - philo[i].info->start),
 				philo[i].id, "died");
 			pthread_mutex_unlock(&philo[i].info->print_lock);
-			pthread_mutex_unlock(philo[i].meal_mutex);
+			
 			return (-1);
 		}
-		pthread_mutex_unlock(philo[i].meal_mutex);
 		i++;
 	}
 	return (0);
