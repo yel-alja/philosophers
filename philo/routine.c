@@ -6,7 +6,7 @@
 /*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 14:23:01 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/05/19 11:29:05 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/05/19 11:30:34 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ void	*routine(void *arg)
 			return (pthread_mutex_unlock(&philo->info->check_lock), NULL);
 		pthread_mutex_unlock(&philo->info->check_lock);
 		print_event(philo, "is thinking");
-		zzz
+		if(philo->id % 2 != 0)
 			usleep(1000);
 		if (eat_fun(philo) == -1)
 			break ;

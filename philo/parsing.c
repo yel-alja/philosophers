@@ -6,7 +6,7 @@
 /*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 10:20:31 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/05/19 09:47:20 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/05/19 11:30:52 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,6 @@ void	init_philo(t_philo *philo, t_info *info, pthread_mutex_t *forks,
 		philo[i].info = info;
 		philo[i].times_eat = 0;
 		philo[i].last_meal = 0;
-		philo[i].flag_eat = 0;
-		pthread_mutex_init(&philo[i].flag_eat_mutex ,NULL);
 		i++;
 	}
 }
