@@ -6,7 +6,7 @@
 /*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 10:20:31 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/05/19 11:30:52 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/05/20 09:48:29 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,10 @@ int	init_info(t_info *info, char **av, int ac)
 	info->ttd = ft_atoi(av[2], &i);
 	info->tte = ft_atoi(av[3], &i);
 	info->tts = ft_atoi(av[4], &i);
+	if((info->num_phi % 2) && (info->tte > info->tts))
+		info->ttt = info->tte;
+	else
+		info->ttt = 1;
 	if (ac == 6)
 		info->noe = ft_atoi(av[5], &i);
 	else

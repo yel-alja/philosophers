@@ -6,7 +6,7 @@
 /*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 13:19:28 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/05/19 11:30:45 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/05/20 09:48:37 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ typedef struct s_info
 	int				ttd;
 	int				tte;
 	int				tts;
+	int				ttt;
 	int				noe;
 	long			start;
 	int				philos_full;

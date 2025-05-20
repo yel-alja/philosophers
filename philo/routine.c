@@ -6,7 +6,7 @@
 /*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 14:23:01 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/05/19 11:30:34 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/05/20 09:52:24 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,9 @@ int	pick_forks(t_philo *philo)
 {
 	if (philo->id % 2 == 0)
 	{
+		print_event(philo, "is thinking");
 		pthread_mutex_lock(philo->right_fork);
 		print_event(philo, "has taken a fork");
-		if (philo->info->num_phi == 1)
-		{
-			pthread_mutex_unlock(philo->right_fork);
-			return (-1);
-		}
 		pthread_mutex_lock(philo->left_fork);
 		print_event(philo, "has taken a fork");
 	}
@@ -39,6 +35,11 @@ int	pick_forks(t_philo *philo)
 	{
 		pthread_mutex_lock(philo->left_fork);
 		print_event(philo, "has taken a fork");
+		if (philo->info->num_phi == 1)
+		{
+			pthread_mutex_unlock(philo->left_fork);
+			return (-1);
+		}
 		pthread_mutex_lock(philo->right_fork);
 		print_event(philo, "has taken a fork");
 	}
@@ -78,24 +79,24 @@ void	*routine(void *arg)
 		usleep(1000);
 	while (1)
 	{
-		pthread_mutex_lock(&philo->info->check_lock);
-		if (philo->info->stop == 1)
+			pthread_mutex_lock(&philo->info->check_lock);
+			if (philo->info->stop == 1)
 			return (pthread_mutex_unlock(&philo->info->check_lock), NULL);
-		pthread_mutex_unlock(&philo->info->check_lock);
-		print_event(philo, "is thinking");
-		if(philo->id % 2 != 0)
-			usleep(1000);
-		if (eat_fun(philo) == -1)
+			pthread_mutex_unlock(&philo->info->check_lock);
+			
+			if (eat_fun(philo) == -1)
 			break ;
-		pthread_mutex_lock(&philo->info->check_lock);
-		if (philo->info->stop == 1)
+			pthread_mutex_lock(&philo->info->check_lock);
+			if (philo->info->stop == 1)
 			return (pthread_mutex_unlock(&philo->info->check_lock), NULL);
-		pthread_mutex_unlock(&philo->info->check_lock);
-		print_event(philo, "is sleeping");
-		if (philo->info->ttd < philo->info->tts)
+			pthread_mutex_unlock(&philo->info->check_lock);
+			print_event(philo, "is sleeping");
+			if (philo->info->ttd < philo->info->tts)
 			usleep(philo->info->ttd * 1000);
-		else
+			else
 			usleep(philo->info->tts * 1000);
+			print_event(philo, "is thinking");
+			usleep(philo->info->ttt * 1000);
 	}
 	return (NULL);
 }
