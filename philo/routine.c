@@ -6,7 +6,7 @@
 /*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 14:23:01 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/05/20 09:52:24 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/07/25 18:52:35 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,12 @@
 
 void	print_event(t_philo *philo, char *str)
 {
-	if (is_dead(philo) == -1)
-		return ;
 	pthread_mutex_lock(&philo->info->print_lock);
+	if (is_dead(philo) == -1)
+	{
+		pthread_mutex_unlock(&philo->info->print_lock);	
+		return ;
+	}
 	printf("%ld\t%d\t%s\n", (get_time() - philo->info->start), philo->id, str);
 	pthread_mutex_unlock(&philo->info->print_lock);
 }

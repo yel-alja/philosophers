@@ -6,7 +6,7 @@
 /*   By: yel-alja <yel-alja@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 10:20:31 by yel-alja          #+#    #+#             */
-/*   Updated: 2025/05/20 09:48:29 by yel-alja         ###   ########.fr       */
+/*   Updated: 2025/07/25 18:51:21 by yel-alja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ int	create_philo(t_info *info)
 		return (free(forks), -1);
 	philo = malloc(sizeof(t_philo) * info->num_phi);
 	if (!philo)
-		return (free(forks), -1);
+		return (free(forks), free(meal_mutex), -1);
 	initialize_mutexes(forks, info, meal_mutex);
 	init_philo(philo, info, forks, meal_mutex);
 	create_thread(philo);
